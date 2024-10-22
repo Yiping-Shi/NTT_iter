@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-#define Q 1047525377
+#define Q 601381537
 
 /*
  * Print array of size n
