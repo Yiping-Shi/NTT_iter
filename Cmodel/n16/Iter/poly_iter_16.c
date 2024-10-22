@@ -12,7 +12,7 @@
 
 #include "iter16.h"
 
-#define Q 1047525377
+#define Q 601381537
 
 /*
  * Print array of size n
