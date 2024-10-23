@@ -1,0 +1,20 @@
+10                  
+2b61d1c1            
+e4e87fd             
+11db38f5            
+3609d06             
+8260cf0             
+4000000             
+40000000            
+// Input order:
+// N
+// q
+// w
+// w_inv
+// psi
+// psi_inv
+// n_inv
+// R
+// 
+// K :30
+// PE:4
