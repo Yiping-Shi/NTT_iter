@@ -1,0 +1,20 @@
+8                   
+f1                  
+8                   
+d3                  
+2c                  
+7e                  
+20                  
+100                 
+// Input order:
+// N
+// q
+// w
+// w_inv
+// psi
+// psi_inv
+// n_inv
+// R
+// 
+// K :8
+// PE:1
