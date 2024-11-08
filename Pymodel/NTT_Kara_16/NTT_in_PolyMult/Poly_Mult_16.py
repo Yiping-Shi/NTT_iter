@@ -20,6 +20,7 @@ B = [random.randint(0, q-1) for _ in range(N)]
 print("A: ", A)
 print("B: ", B)
 print("********** End Init **********")
+print("\n\r")
 
 # -----------------------------------
 print("********** Start Nega_conv_psi **********")
@@ -28,6 +29,7 @@ B_nega_conv = nega_conv_mul_array(B, N, psi, q)
 print("A_nega_conv: ", A_nega_conv)
 print("B_nega_conv: ", B_nega_conv)
 print("********** End Nega_conv_psi **********")
+print("\n\r")
 
 # -----------------------------------
 print("********** Start NTT **********")
@@ -36,18 +38,21 @@ B_ntt = ntt_ct_std2rev(B_nega_conv, N, phi, q)
 print("A_ntt: ", A_ntt)
 print("B_ntt: ", B_ntt)
 print("********** End NTT **********")
+print("\n\r")
 
 # -----------------------------------
 print("********** Start Element_wise_Mult **********")
 C_ntt = mul_array_elementwise(A_ntt, B_ntt, N, q)
 print("C_ntt: ", C_ntt)
 print("********** End Element_wise_Mult **********")
+print("\n\r")
 
 # -----------------------------------
 print("********** Start Inverse NTT **********")
 C = intt_ct_rev2std(C_ntt, N, phi_inv, q)
 print("C: ", C)
 print("********** End Inverse NTT **********")
+print("\n\r")
 
 # -----------------------------------
 print("********** Start Nega_conv_psi_inv **********")
@@ -57,6 +62,7 @@ for i in range(N):
     result[i] = (C_nega_conv[i] * n_inv) % q
 print("Result: ", result)
 print("********** End Nega_conv_psi_inv **********")
+print("\n\r")
 
 # -----------------------------------
 print("********** Start Baseline-Verification **********")
@@ -75,7 +81,7 @@ for i in range(N, n):
     
 print("Baseline: ", baseline)
 if result == baseline:
-    print("Verification: Passed")
+    print("Verification: Passed! 😊😊😊😊😊")
 else:
-    print("Verification: Failed")
+    print("Verification: Failed! 😢😢😢😢😢")
 print("********** End Baseline-Verification **********")
