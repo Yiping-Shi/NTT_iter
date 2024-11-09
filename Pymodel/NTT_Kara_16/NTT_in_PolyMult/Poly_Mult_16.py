@@ -13,10 +13,10 @@ n_inv    = 11521
 
 # -----------------------------------
 print("********** Start Init **********")
-# A = list(range(N))
-# B = list(range(N))
-A = [random.randint(0, q-1) for _ in range(N)]
-B = [random.randint(0, q-1) for _ in range(N)]
+A = list(range(N))
+B = list(range(N))
+# A = [random.randint(0, q-1) for _ in range(N)]
+# B = [random.randint(0, q-1) for _ in range(N)]
 print("A: ", A)
 print("B: ", B)
 print("********** End Init **********")

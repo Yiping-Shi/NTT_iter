@@ -1,4 +1,4 @@
-
+import math
 
 def nega_conv_mul_array(arrayIn, N, psi, q):
     """
@@ -59,6 +59,8 @@ def ntt_ct_std2rev(arrayIn, N, phi, q):
                 arrayOut[s+d] = (arrayOut[s] - x) % q
                 arrayOut[s] = (arrayOut[s] + x) % q
         t <<= 1
+        print("stage: ", math.log2(t))
+        print("arrayOut: ", arrayOut)
     
     return arrayOut
        
@@ -118,5 +120,7 @@ def intt_ct_rev2std(arrayIn, N, phi_inv, q):
                 arrayOut[s] = (arrayOut[s] + x) % q
         
         t <<= 1
+        print("stage: ", math.log2(t))
+        print("arrayOut: ", arrayOut)
         
     return arrayOut
