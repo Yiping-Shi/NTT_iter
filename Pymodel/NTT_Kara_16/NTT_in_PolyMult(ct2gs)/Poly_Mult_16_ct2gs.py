@@ -1,5 +1,5 @@
 import random
-from Poly_NTT_helper_ct2ct import *
+from Poly_NTT_helper_ct2gs import *
 
 # Parameter Definition
 # N        = 16
@@ -10,22 +10,20 @@ from Poly_NTT_helper_ct2ct import *
 # psi_inv  = 2545
 # phi_inv  = 722
 # n_inv    = 11521
-# Parameter Definition
-N       = 16
-K       = 8
-q       = 193
-psi     = 8
-psi_inv = 169
-phi     = 64
-phi_inv = 190
-n_inv   = 181
+# -------
+N        = 16
+K        = 8
+q        = 193
+psi      = 8
+phi      = 64
+psi_inv  = 169
+phi_inv  = 190
+n_inv    = 181
 
 # -----------------------------------
 print("********** Start Init **********")
-# A = list(range(N))
-# B = list(range(N))
-A = [1] * N
-B = [1] * N
+A = list(range(N))
+B = list(range(N))
 # A = [random.randint(0, q-1) for _ in range(N)]
 # B = [random.randint(0, q-1) for _ in range(N)]
 print("A: ", A)
@@ -60,8 +58,12 @@ print("\n\r")
 
 # -----------------------------------
 print("********** Start Inverse NTT **********")
-C = intt_ct_rev2std(C_ntt, N, phi_inv, q)
+# C_ntt = indexReverse(C_ntt, int(math.log(N, 2)))
+# print("C_ntt(rev_std): ", C_ntt)
+C = intt_gs_rev2std(C_ntt, N, phi_inv, q)
 print("C: ", C)
+# C = indexReverse(C, int(math.log(N, 2)))
+# print("C(rev_std): ", C)
 print("********** End Inverse NTT **********")
 print("\n\r")
 
