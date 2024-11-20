@@ -56,8 +56,10 @@ int main() {
     // -----------------------------------------
 	  printf("********** Start Init **********\n");
     uint32_t i,j;
-	  uint32_t A[N] = {0};
-    uint32_t B[N] = {0};
+	  uint32_t *A      = (uint32_t *)malloc(N * sizeof(uint32_t));
+    uint32_t *A_copy = (uint32_t *)malloc(N * sizeof(uint32_t));
+    uint32_t *B      = (uint32_t *)malloc(N * sizeof(uint32_t));
+    uint32_t *B_copy = (uint32_t *)malloc(N * sizeof(uint32_t));
     uint32_t C[N] = {0};
     // for (i = 0; i < N; i++) {
     //     A[i] = i;
@@ -67,6 +69,8 @@ int main() {
         A[i] = random_coeff();
         B[i] = random_coeff();
     }
+    memcpy(A_copy, A, N * sizeof(uint32_t));
+    memcpy(B_copy, B, N * sizeof(uint32_t));
     printf("A[0:15]");
     print_array(stdout, A, 16);
     printf("B[0:15]");
@@ -126,31 +130,57 @@ int main() {
     Nega_conv(C, N, psi_inv, q);
     printf("C[0:15]");
     print_array(stdout, C, 16);
+    printf("C[256]: %" PRIu32 "\n", C[256]);
+    printf("C[23623]: %" PRIu32 "\n", C[23623]);
     printf("********** End Inv_Nega_conv **********\n\n");
 
     // -----------------------------------------
     printf("********** Start Verification **********\n");
     uint32_t Base_temp[2*N-1] = {0};
     uint32_t Base[N] = {0};
+    uint64_t Base_temp_64;
+
+    printf("A_copy[0:15]");
+    print_array(stdout, A_copy, 16);
+    printf("B_copy[0:15]");
+    print_array(stdout, B_copy, 16);
+
     for (i = 0; i < N; i++) {
       for (j = 0; j < N; j++) {
-        Base_temp[i+j] = Base_temp[i+j] + (uint64_t)A[i] * B[j] % q;
+        Base_temp_64 = Base_temp[i+j] + (uint64_t)A_copy[i] * B_copy[j];
+        Base_temp[i+j] = Base_temp_64 % q;
       }
     }
     for (i = 0; i < N; i++) {
       Base[i] = Base_temp[i] % q;
     }
     for (i = N; i < 2*N-1; i++) {
-      Base[i-N] = (Base[i-N]+q - Base_temp[i]) % q;
+      Base[i-N] = (Base[i-N]+q - (Base_temp[i]%q)) % q;
     }
+
+    printf("Base[0:15]");
+    print_array(stdout, Base, 16);
+    printf("Base[256]: %" PRIu32 "\n", Base[256]);
+    printf("Base[23623]: %" PRIu32 "\n", Base[23623]);
 
     if (memcmp(C, Base, N * sizeof(uint32_t)) == 0) {
       printf("Verification PASS! :) :) :) :) :)\n");
     } else {
-      printf("Verification PASS! :) :) :) :) :)\n");
+      printf("Verification FAIL! :( :( :( :( :(\n");
+      for (i = 0; i < N; i++) {
+        if (C[i] != Base[i]) {
+          printf("C[%d] = %d, Base[%d] = %d\n", i, C[i], i, Base[i]);
+          break;
+        }
+      }
     }
 
     printf("********** End Verification **********\n\n");     
-      
+
+    free(A);
+    free(A_copy);
+    free(B);
+    free(B_copy);
+
     return 0;
 }

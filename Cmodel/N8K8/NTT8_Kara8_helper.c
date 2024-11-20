@@ -319,6 +319,8 @@ void Inv_NTT_8(uint32_t *C, uint32_t N, uint32_t phi_inv, uint32_t inv_2, uint32
     uint64_t mult_temp;
     uint32_t mult_mod_temp;
     uint64_t C_temp;
+    uint32_t add_temp;
+    uint32_t sub_temp;
     
     // Stage 0 - 7
     for (k = 0; k < 8; k++) {
@@ -328,8 +330,11 @@ void Inv_NTT_8(uint32_t *C, uint32_t N, uint32_t phi_inv, uint32_t inv_2, uint32
                 mult_temp     = (uint64_t)C[i+j*(512<<k)+(256<<k)] * phi_inv_temp;
                 mult_mod_temp = mult_temp % q;
 
-                C[i+j*(512<<k)]          = (C[i+j*(512<<k)] + mult_mod_temp) % q;
-                C[i+j*(512<<k)+(256<<k)] = (C[i+j*(512<<k)] - mult_mod_temp) % q;
+                add_temp = C[i+j*(512<<k)] + mult_mod_temp;
+                sub_temp = C[i+j*(512<<k)]+q - mult_mod_temp;
+
+                C[i+j*(512<<k)]          = add_temp % q;
+                C[i+j*(512<<k)+(256<<k)] = sub_temp % q;
             }
         }
         for (i = 0; i < N; i++) {
