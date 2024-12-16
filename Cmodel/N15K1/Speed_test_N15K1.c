@@ -4,14 +4,14 @@
 #include <inttypes.h>
 #include <assert.h>
 
-#include "NTT8_Kara8_helper.h"
+#include "NTT15_Kara1_helper.h"
 
 // Parameter Definition
 #define N            65536       // N = 2^16
 // #define N_kara       1679616     // N_kara = 2^8 * 3^8
-#define Kara_group   256
-#define Kara_256     256
-#define Kara_6561    6561
+#define Kara_group   32768       // Kara_group = 2^15
+#define Kara_2       2
+#define Kara_3       3
 #define K            32
 #define q            998244353
 #define phi          629671588
@@ -93,26 +93,26 @@ int main() {
         Nega_conv(A, N, psi, q);
         Nega_conv(B, N, psi, q);
 
-        NTT_8(A, N, phi, q);
-        NTT_8(B, N, phi, q);
+        NTT_15(A, N, phi, q);
+        NTT_15(B, N, phi, q);
 
-        uint32_t A_6561[Kara_6561] = {0};
-        uint32_t B_6561[Kara_6561] = {0}; 
-        uint32_t C_6561[Kara_6561] = {0}; 
+        uint32_t A_3[Kara_3] = {0};
+        uint32_t B_3[Kara_3] = {0};
+        uint32_t C_3[Kara_3] = {0};
 
-        for (j = 0; j < Kara_group; j++) {
-            uint32_t* A_256  = &A[j*Kara_256];
-            uint32_t* B_256  = &B[j*Kara_256];
-            Kara_8(A_256, A_6561, q);
-            Kara_8(B_256, B_6561, q);
+        for (j=0; j<Kara_group; j++) {
+            uint32_t* A_2 = &A[j*Kara_2];
+            uint32_t* B_2 = &B[j*Kara_2];
+            Kara_1(A_2, A_3, q);
+            Kara_1(B_2, B_3, q);
             // -----------------------------------------
-            Ele_wise_Mult(A_6561, B_6561, C_6561, Kara_6561, q);
+            Ele_wise_Mult(A_3, B_3, C_3, Kara_3, q);
             // -----------------------------------------
-            uint32_t* C_256  = &C[j*Kara_256];
-            Inv_Kara_8(C_256, C_6561, q);
+            uint32_t* C_2 = &C[j*Kara_2];
+            Inv_Kara_1(C_2, C_3, q);
         }
 
-        Inv_NTT_8(C, N, phi_inv, inv_2, q);
+        Inv_NTT_15(C, N, phi_inv, inv_2, q);
 
         Nega_conv(C, N, psi_inv, q);
     }
@@ -126,7 +126,7 @@ int main() {
         s += t[i];
     }
     avg = s / NTESTS;
-    printf("speed test %s: average = %"PRIu64"\n\n", "Poly_NTT8_Kara8", avg);
+    printf("speed test %s: average = %"PRIu64"\n\n", "Poly_NTT16_Kara0", avg);
 
 
     // -----------------------------------------
